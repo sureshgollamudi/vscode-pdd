@@ -1,3 +1,32 @@
+// ============================================
+// THEME MANAGEMENT
+// ============================================
+
+// Initialize theme from localStorage or system preference
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme')
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const theme = savedTheme || (prefersDark ? 'dark' : 'light')
+  
+  document.documentElement.setAttribute('data-theme', theme)
+}
+
+// Toggle theme and save to localStorage
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme')
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+  
+  document.documentElement.setAttribute('data-theme', newTheme)
+  localStorage.setItem('theme', newTheme)
+}
+
+// Initialize theme on page load
+initTheme()
+
+// ============================================
+// DOM HELPERS
+// ============================================
+
 const el = (sel) => document.querySelector(sel)
 const els = (sel) => Array.from(document.querySelectorAll(sel))
 
@@ -309,6 +338,19 @@ function updateSearchResults() {
     }
   }
 }
+
+// ============================================
+// THEME TOGGLE EVENT LISTENER
+// ============================================
+
+const themeToggle = el('#theme-toggle')
+if (themeToggle) {
+  themeToggle.addEventListener('click', toggleTheme)
+}
+
+// ============================================
+// INITIAL LOAD
+// ============================================
 
 // initial load
 loadNotes(); loadCategories();
